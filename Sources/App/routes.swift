@@ -11,6 +11,15 @@ public func routes(_ router: Router) throws {
     router.get("hello") { req in
         return "Hello, world!"
     }
+    
+    router.get("hello", "vapor") { (req) in
+        return "Hello Vapor !"
+    }
+    
+    router.get("hello", String.parameter) { req -> String in
+        guard let name = req.parameters.values.first else { return "" }
+        return "Hello, \(name.value)"
+    }
 
     // Example of configuring a controller
     let todoController = TodoController()
