@@ -33,6 +33,25 @@ public func routes(_ router: Router) throws {
             .decode(InfoData.self)
             .map({ InfoResponse(request: $0) })
     }
+    
+    // Lession 5
+    // https://www.raywenderlich.com/4493-server-side-swift-with-vapor/lessons/5
+    router.get("date") { (req) in
+        return "\(Date())"
+    }
+    
+    router.get("counter", Int.parameter) { (req) -> CountJSON in
+        let countValue = try req.parameters.next(Int.self)
+        return CountJSON(count: countValue)
+    }
+    
+    router.post("user-info") { (req) -> Future<String> in
+        return try req.content.decode(InfoData.self)
+            .map({ (user) -> String in
+                return "Hello \(user.name), you are \(user.age)"
+            })
+    }
+    
 }
 
 struct InfoData: Content {
@@ -42,4 +61,8 @@ struct InfoData: Content {
 
 struct InfoResponse: Content {
     let request: InfoData
+}
+
+struct CountJSON: Content {
+    let count: Int
 }
