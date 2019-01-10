@@ -17,8 +17,8 @@ public func routes(_ router: Router) throws {
     }
     
     router.get("hello", String.parameter) { req -> String in
-        guard let name = req.parameters.values.first else { return "" }
-        return "Hello, \(name.value)"
+        let name = try req.parameters.next(String.self)
+        return "Hello, \(name)"
     }
 
     // Example of configuring a controller
@@ -26,4 +26,20 @@ public func routes(_ router: Router) throws {
     router.get("todos", use: todoController.index)
     router.post("todos", use: todoController.create)
     router.delete("todos", Todo.parameter, use: todoController.delete)
+    
+    
+    router.post("info") { (req) -> Future<InfoResponse> in
+        return try req.content
+            .decode(InfoData.self)
+            .map({ InfoResponse(request: $0) })
+    }
+}
+
+struct InfoData: Content {
+    let name: String
+    let age: Int
+}
+
+struct InfoResponse: Content {
+    let request: InfoData
 }
