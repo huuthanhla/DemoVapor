@@ -19,4 +19,4 @@
     </a>
 </p>
 
-<p align="center">Online at <a href="https://demovaporswift.herokuapp.com">https://demovaporswift.herokuapp.com</a></p>
+<p align="center">Online at <a href="https://demovaporswift.herokuapp.com" target="_blank">https://demovaporswift.herokuapp.com</a></p>
